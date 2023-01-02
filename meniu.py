@@ -4,8 +4,10 @@ def pasirinkimas():
 
 
 def valdymas():
+    print("Tikslas nušauti prieša, pries pasibaigiant ejimu skaičiui. Kekvienas priešo nušovimas prideda 2 ejimus")
     print("Valdymas:\nJudejimas: w(viršun), a(kairėn),d(dešinėn),s(apačion)")
-    print("Šauti: f\nInformacija: x (žiurima kryptis; dabartinės kordinatės; tašku suma)")
+    print("Šauti: f\nInformacija: x (žiurima kryptis; dabartinės kordinatės;"
+          " priešo kordinatės; tašku suma; atlikti šuviai)")
     print("Išeiti: q")
 
 
@@ -25,5 +27,3 @@ def toprezultatai():
     for i in range(min(10, len(isrusiuota))):
         vardas, taskai = isrusiuota[i]
         print(f"{i + 1}. {vardas}: {taskai}")
-
-

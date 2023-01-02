@@ -1,8 +1,9 @@
 import random
-# !!!!!!!!!!!!!!!!!!!!
-vardas = ""
-rezultatas = 100
-# !!!!!!!!!!!!!!!!!!!!
+from meniu import pasirinkimas, valdymas, toprezultatai
+
+
+rezultatas = 0
+
 lauko_plotis = 10
 lauko_ilgis = 10
 laukas = []
@@ -12,20 +13,6 @@ for y1 in range(lauko_ilgis):
         laukas[y1].append("-")
 
 
-# ========================================================================
-# class Taskai:
-#     def __init__(self, vardas, rezultatas):
-#         self.vardas = vardas
-#         self.rezultatas = rezultatas
-#
-#     def saugoti(self):
-#         with open("rezultatai.txt", "a") as f:
-#             f.write(f"{self.vardas},{self.rezultatas}\n")
-#
-#
-# zaidejo_taskai = Taskai()
-# ================================================================================
-
 class Tankas:
     def __init__(self, kryptis, x_axis, y_axis):
         self.kryptis = kryptis
@@ -33,24 +20,33 @@ class Tankas:
         self.y_axis = int(y_axis)
 
     def siaure(self):
+        if self.y_axis == 0:
+            print("Pasiektos šiaures ribos")
+            return
         laukas[self.y_axis][self.x_axis] = "-"
         self.y_axis -= 1
         self.kryptis = "Šiaure"
         laukas[self.y_axis][self.x_axis] = "X"
 
     def pietus(self):
+        if self.y_axis == lauko_ilgis - 1:
+            print("Pasiektos pietu ribos")
         laukas[self.y_axis][self.x_axis] = "-"
         self.y_axis += 1
         self.kryptis = "Pietus"
         laukas[self.y_axis][self.x_axis] = "X"
 
     def vakarai(self):
+        if self.x_axis == 0:
+            print("Pasiektos vakaru ribos")
         laukas[self.y_axis][self.x_axis] = "-"
         self.x_axis -= 1
         self.kryptis = "Vakarai"
         laukas[self.y_axis][self.x_axis] = "X"
 
     def rytai(self):
+        if self.x_axis == lauko_plotis - 1:
+            print("Pasietos rytu ribos")
         laukas[self.y_axis][self.x_axis] = "-"
         self.x_axis += 1
         self.kryptis = "Rytai"
@@ -58,21 +54,23 @@ class Tankas:
 
     def info(self):
         print(f'Kryptis - {self.kryptis}')
-        print(f'kordinates: x = {self.x_axis}, y = {self.y_axis}')
+        print(f'Tanko kordinates: x = {tankete.x_axis}, y = {tankete.y_axis}')
+        print(f'Priešo kordinates: x = {priesas.x_axis}, y = {priesas.y_axis}')
         print(f'Taškai: {rezultatas}')
-        print(f'atlikti šuviai{suviai}')
+        print(f'Atlikti šuviai:\n{suviai}')
+        input("Noredami testi iveskite betka")
 
     def fire(self):
         x = self.x_axis
         y = self.y_axis
 
-        pataikyta = "Nepataikyta"
-
+        global ejimai
+        suvis = False
         suvio_distancija = 10
 
         for distancija in range(suvio_distancija):
             if x == priesas.x_axis and y == priesas.y_axis:
-                pataikyta = "Pataikyta"
+                suvis = True
                 break
 
             if self.kryptis == "Šiaure":
@@ -84,19 +82,22 @@ class Tankas:
             elif self.kryptis == "Rytai":
                 x += 1
 
-        suviai.append((x, y, self.kryptis, pataikyta))
-
-        if pataikyta:
+        if suvis:
             print("Pataikyta!")
             priesas.kitur()
             global rezultatas
             rezultatas += 10
+            ejimai += 2
+            tekstas = "Pataikyta"
 
         else:
             print("Nepataikyta")
+            ejimai -= 1
+            tekstas = "Nepataikyta"
+
+        suviai.append((tankete.x_axis, tankete.y_axis, self.kryptis, tekstas))
 
 
-suviai = []
 tankete = Tankas("šiaure", 5, 5)
 
 
@@ -106,7 +107,7 @@ class PriesoTankas:
         self.y_axis = random.randint(0, lauko_ilgis - 1)
 
     def info(self):
-        print(f'Enemy tank at x = {self.x_axis}, y = {self.y_axis}')
+        print(f'Prieso tankas x = {self.x_axis}, y = {self.y_axis}')
 
     def kitur(self):
         laukas[self.y_axis][self.x_axis] = "-"
@@ -127,25 +128,54 @@ def rodyti_lauka():
         for cell in row:
             print(cell, end="  ")
         print()
-    print(f'Tanko kordinates: x = {tankete.x_axis}, y = {tankete.y_axis}   Kryptis:{tankete.kryptis}')
-    print(f'Priešo kordinates: x = {priesas.x_axis}, y = {priesas.y_axis}')
+    # print(f'Tanko kordinates: x = {tankete.x_axis}, y = {tankete.y_axis}   Kryptis:{tankete.kryptis}')
+    # print(f'Priešo kordinates: x = {priesas.x_axis}, y = {priesas.y_axis}')
 
 
 # ============================================================================
+veiksmas = ""
 while True:
-    rodyti_lauka()
-    veiksmas = input("komanda(w,a,s,d,f,x,q): ")
-    if veiksmas == "a":
-        tankete.vakarai()
-    elif veiksmas == "w":
-        tankete.siaure()
-    elif veiksmas == "s":
-        tankete.pietus()
-    elif veiksmas == "d":
-        tankete.rytai()
-    elif veiksmas == "f":
-        tankete.fire()
-    elif veiksmas == "x":
-        tankete.info()
-    elif veiksmas == "q":
-        break
+    pasirinkimas()
+    pasirinko = input("Pasirinkite:")
+    if pasirinko not in ["1", "2", "3", "4"]:
+        print("Neteisingai pasirinkote")
+    else:
+
+        if pasirinko == "1":
+            ejimai = 10
+            suviai = []
+            while ejimai > -1:
+                rodyti_lauka()
+                veiksmas = input("komanda(w,a,s,d,f,x,q): ")
+                print(f'Liko ėjimu: {ejimai}')
+                if veiksmas == "a":
+                    tankete.vakarai()
+                    ejimai -= 1
+                elif veiksmas == "w":
+                    tankete.siaure()
+                    ejimai -= 1
+                elif veiksmas == "s":
+                    tankete.pietus()
+                    ejimai -= 1
+                elif veiksmas == "d":
+                    tankete.rytai()
+                    ejimai -= 1
+                elif veiksmas == "f":
+                    tankete.fire()
+                elif veiksmas == "x":
+                    tankete.info()
+                elif veiksmas == 'q':
+                    break
+            print(f"Rezultatas: {rezultatas}")
+            vardas = input("Iveskite savo varda: ")
+            with open('rezultatai.txt', 'a') as f:
+                f.write(f'{vardas}: {rezultatas}\n')
+
+        elif pasirinko == "2":
+            valdymas()
+            pass
+        elif pasirinko == "3":
+            toprezultatai()
+            pass
+        elif pasirinko == "4":
+            break

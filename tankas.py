@@ -57,7 +57,7 @@ class Tankas:
         print(f'Tanko kordinates: x = {tankete.x_axis}, y = {tankete.y_axis}')
         print(f'Priešo kordinates: x = {priesas.x_axis}, y = {priesas.y_axis}')
         print(f'Taškai: {rezultatas}')
-        print(f'Atlikti šuviai:\n{suviai}')
+        print(f'Atlikti šuviai: {visisuviai}\n{suviai}')
         input("Noredami testi iveskite betka")
 
     def fire(self):
@@ -96,6 +96,8 @@ class Tankas:
             tekstas = "Nepataikyta"
 
         suviai.append((tankete.x_axis, tankete.y_axis, self.kryptis, tekstas))
+        global visisuviai
+        visisuviai += 1
 
 
 tankete = Tankas("šiaure", 5, 5)
@@ -144,6 +146,7 @@ while True:
         if pasirinko == "1":
             ejimai = 10
             suviai = []
+            visisuviai = 0
             while ejimai > -1:
                 rodyti_lauka()
                 veiksmas = input("komanda(w,a,s,d,f,x,q): ")

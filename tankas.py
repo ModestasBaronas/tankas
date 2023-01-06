@@ -7,6 +7,7 @@ rezultatas = 0
 lauko_plotis = 10
 lauko_ilgis = 10
 laukas = []
+
 for y1 in range(lauko_ilgis):
     laukas.append([])
     for x1 in range(lauko_plotis):
@@ -59,6 +60,12 @@ class Tankas:
         print(f'Taškai: {rezultatas}')
         print(f'Atlikti šuviai: {visisuviai}\n{suviai}')
         input("Noredami testi iveskite betka")
+
+    def reset(self):
+        laukas[self.y_axis][self.x_axis] = "-"
+        self.x_axis = 5
+        self.y_axis = 5
+        laukas[self.y_axis][self.x_axis] = "X"
 
     def fire(self):
         x = self.x_axis
@@ -119,7 +126,6 @@ class PriesoTankas:
 
 
 priesas = PriesoTankas()
-
 # =====================================================================
 
 
@@ -130,13 +136,12 @@ def rodyti_lauka():
         for cell in row:
             print(cell, end="  ")
         print()
-    # print(f'Tanko kordinates: x = {tankete.x_axis}, y = {tankete.y_axis}   Kryptis:{tankete.kryptis}')
-    # print(f'Priešo kordinates: x = {priesas.x_axis}, y = {priesas.y_axis}')
 
 
 # ============================================================================
 veiksmas = ""
 while True:
+    tankete.reset()
     pasirinkimas()
     pasirinko = input("Pasirinkite:")
     if pasirinko not in ["1", "2", "3", "4"]:

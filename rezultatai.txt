@@ -1,8 +1,6 @@
 Modestas: 170
 Modestas: 130
 Baron: 90
-zzz: 0
-zzz: 0
-gaba: 0
+test2: 10
+test: 0
 Modziodziodzio: 100
-123: 0

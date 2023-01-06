@@ -1,11 +1,13 @@
 
 def pasirinkimas():
-    print("MENIU \n 1. Pradėti žaidima \n 2. Valdymas \n 3. Top rezultatai \n 4. Išeiti")
+    print("MENIU \n 1. Pradėti žaidima \n "
+          "2. Valdymas \n 3. Top rezultatai \n 4. Išeiti")
 
 
 def valdymas():
-    print("Tikslas nušauti prieša, pries pasibaigiant ejimu skaičiui. Kekvienas priešo nušovimas prideda 2 ejimus")
-    print("Valdymas:\nJudejimas: w(viršun), a(kairėn),d(dešinėn),s(apačion)")
+    print("Tikslas nušauti prieša, pries pasibaigiant ejimu"
+          " skaičiui. Kekvienas priešo nušovimas prideda 2 ejimus")
+    print("Valdymas: w(viršun), a(kairėn),d(dešinėn),s(apačion)")
     print("Šauti: f\nInformacija: x (žiurima kryptis; dabartinės kordinatės;"
           " priešo kordinatės; tašku suma; atlikti šuviai)")
     print("Išeiti: q")
